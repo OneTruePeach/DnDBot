@@ -9,6 +9,7 @@ module.exports = {
 
   async execute(interaction) {
     var roll = await interaction.options.getString("roll");
+    console.log(`${new Date().toLocaleString()} - Rolling ${roll}`);
 
     var total = 0;
     var totals = [];

@@ -12,6 +12,8 @@ module.exports = {
     var vcUsers = await vcChannel?.members || null;
     if (vcUsers == null) { interaction.reply(`There's nobody in the vc silly`) }
 
+    console.log(`${new Date().toLocaleString()} - Readychecking ${vcChannel.name}`);
+
     let i = 0;
     var userString = ""
     var userList = [];
