@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, entersState, StreamType, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
+const { getVoiceConnection, createAudioResource, entersState, StreamType, AudioPlayerStatus } = require('@discordjs/voice');
+const sessionHandler = require(`../handlers/sessionHandler`);
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,6 +19,7 @@ module.exports = {
     var userString = ""
     var userList = [];
     var userReadyStates = [];
+    vcUsers = vcUsers.filter((u) => !u.user.bot);
     vcUsers.each(user => {
         userString += `${user.displayName}\n`;
         userList[i] = user.id;
@@ -25,20 +27,15 @@ module.exports = {
         i++;
     });
 
-    const audioPlayer = createAudioPlayer();
-
     const soundInitiate = createAudioResource(`./assets/sounds/initiate.mp3`, {inputType: StreamType.Arbitrary});
     const soundSuccess = createAudioResource(`./assets/sounds/success.mp3`, {inputType: StreamType.Arbitrary});
     const soundFailure = createAudioResource(`./assets/sounds/failure.mp3`, {inputType: StreamType.Arbitrary});
 
-    const vcConnection = await joinVoiceChannel({
-        channelId: process.env.VC_ID,
-        guildId: process.env.GUILD_ID,
-        adapterCreator: vcGuild.voiceAdapterCreator,
-    });
+    pausedByRC = await sessionHandler.execute(interaction, true, true);
+    vcConnection = getVoiceConnection(process.env.GUILD_ID);
 
-    audioPlayer.play(soundInitiate);
-    vcConnection.subscribe(audioPlayer);
+    RCaudioPlayer.play(soundInitiate);
+    vcConnection.subscribe(RCaudioPlayer);
 
     var [embed, row] = createReply(userString, userReadyStates);
     const response = await interaction.reply({ embeds: [embed], components: [row] });
@@ -54,27 +51,30 @@ module.exports = {
         if (numHolding == 0) {
             if (numReady == userReadyStates.length) {
                 interaction.followUp(`Everyone is ready!`);
-                audioPlayer.play(soundSuccess);
-                await entersState(audioPlayer, AudioPlayerStatus.Idle, 5000);
-                    vcConnection.destroy();
+                RCaudioPlayer.play(soundSuccess);
+                await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 5000);
+                if (pausedByRC) { vcConnection.subscribe(BGMaudioPlayer); BGMaudioPlayer.unpause(); }
+                return;
             } else {
                 interaction.followUp(`Ready check ended. ${numReady}/${userReadyStates.length} people are ready.`);
-                audioPlayer.play(soundFailure);
-                await entersState(audioPlayer, AudioPlayerStatus.Idle, 5000);
-                    vcConnection.destroy();
+                RCaudioPlayer.play(soundFailure);
+                await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 5000);
+                if (pausedByRC) { vcConnection.subscribe(BGMaudioPlayer); BGMaudioPlayer.unpause(); }
+                return;
             }
         }
         i.deferUpdate();
     });
 
-    readyCollector.on('end', async collected => {
+    readyCollector.on('end', async c => {
         let numReady = userReadyStates.filter(a => a === "r").length
         let numHolding = userReadyStates.filter(a => a === "h").length
         if (numHolding != 0) {
             interaction.followUp(`Ready check ended. ${numReady}/${userReadyStates.length} people are ready.`);
-            audioPlayer.play(soundFailure);
-            await entersState(audioPlayer, AudioPlayerStatus.Idle, 5000);
-                vcConnection.destroy();
+            RCaudioPlayer.play(soundFailure);
+            await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 5000);
+            if (pausedByRC) { vcConnection.subscribe(BGMaudioPlayer); BGMaudioPlayer.unpause(); }
+            return;
         }
     });
   },

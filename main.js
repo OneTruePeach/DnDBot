@@ -1,4 +1,5 @@
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { createAudioPlayer, NoSubscriberBehavior } = require('@discordjs/voice');
 const fs = require('fs');
 require('dotenv').config();
 
@@ -11,6 +12,13 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+global.sessionActive = false;
+global.BGMaudioPlayer = createAudioPlayer({
+    behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+});
+global.RCaudioPlayer = createAudioPlayer({
+    behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+});
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
