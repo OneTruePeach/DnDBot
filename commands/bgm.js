@@ -32,7 +32,7 @@ module.exports = {
       interaction.reply({ content:`Unpausing BGM.`, ephemeral: true });
       return BGMaudioPlayer.unpause();
     } else {
-      BGMsong = createAudioResource(`./assets/BGM/${song}.mp3`, {inputType: StreamType.Arbitrary});
+      BGMsong = createAudioResource(`./assets/BGM/${song}.ogg`, {inputType: StreamType.Arbitrary});
       BGMaudioPlayer.play(BGMsong);
       vcConnection.subscribe(BGMaudioPlayer);
       if (!canPlay) {
@@ -43,7 +43,7 @@ module.exports = {
     }
 
     BGMaudioPlayer.on(AudioPlayerStatus.Idle, () => { //i fucking hate this
-      BGMsong = createAudioResource(`./assets/BGM/${song}.mp3`, {inputType: StreamType.Arbitrary});
+      BGMsong = createAudioResource(`./assets/BGM/${song}.ogg`, {inputType: StreamType.OggOpus});
       BGMaudioPlayer.play(BGMsong);
     });
   },
@@ -74,7 +74,7 @@ module.exports = {
     ];
 
     applicableSongs = (interaction.user.id == '203542663851409409' || interaction.user.id == '200297075882065921') ? allSongs : simpleSongs;
-    const filtered = search == '' ? applicableSongs : applicableSongs.filter(song => song.startsWith(search));
+    const filtered = search == '' ? applicableSongs : applicableSongs.filter(song => song[0].startsWith(search));
     await interaction.respond(filtered.map(song => ({ name: song[0], value: song[1] })).slice(0, 25));
   }
 };
