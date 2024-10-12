@@ -8,7 +8,7 @@ module.exports = {
 
   async execute(interaction) {
 
-    console.log(`${new Date().toLocaleString()} - stopping via command.`);
+    console.log(`${new Date().toLocaleString()} - Stopping via command.`);
 
     try {
       var vcGuild = await interaction.client.guilds.resolve(process.env.GUILD_ID);
@@ -24,6 +24,6 @@ module.exports = {
       console.error(e);
     }
 
-    return interaction.reply({ content: `Attempted to reset.`, ephemeral: true });
+    return interaction.reply({ content: `Stopped bot.`, ephemeral: true });
   },
 };

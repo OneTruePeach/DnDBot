@@ -13,7 +13,7 @@ module.exports = {
     var song = await interaction.options.getString("song");
     var vcGuild = await interaction.client.guilds.resolve(process.env.GUILD_ID);
     var vcChannel = await vcGuild.channels.resolve(process.env.VC_ID);
-    console.log(`${new Date().toLocaleString()} - changing BGM to ${song} in ${vcChannel.name}`);
+    console.log(`${new Date().toLocaleString()} - Changing BGM to ${song} in ${vcChannel.name}`);
 
     canPlay = await sessionHandler.execute(interaction, true, false);
     vcConnection = getVoiceConnection(process.env.GUILD_ID);
