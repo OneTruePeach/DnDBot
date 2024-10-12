@@ -65,6 +65,10 @@ module.exports = {
       [ "Kallayo stressed",  "kallayo-stress" ],
       [ "Tezar",              "kallayo-tezar" ],
       [ "Tezar death",  "kallayo-tezar-death" ],
+      [ "Kiraya peaceful",  "kiraya-at-peace" ],
+      [ "Kiraya mom",            "kiraya-mom" ],
+      [ "Kiraya shop/tavern",   "kiraya-shop" ],
+      [ "Kiraya sombre",      "kiraya-sombre" ],
       [ "Meadow general",            "meadow" ],
       [ "Sovia peaceful",       "sovia-happy" ],
       [ "Zh'era happy",         "zhera-happy" ],
@@ -74,7 +78,7 @@ module.exports = {
     ];
 
     applicableSongs = (interaction.user.id == '203542663851409409' || interaction.user.id == '200297075882065921') ? allSongs : simpleSongs;
-    const filtered = search == '' ? applicableSongs : applicableSongs.filter(song => song[0].startsWith(search));
+    const filtered = search == '' ? applicableSongs : applicableSongs.filter(song => song[0].toLowerCase().startsWith(search));
     await interaction.respond(filtered.map(song => ({ name: song[0], value: song[1] })).slice(0, 25));
   }
 };
