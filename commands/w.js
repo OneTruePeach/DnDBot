@@ -35,28 +35,28 @@ module.exports = {
 
     whisperEmbed = createWhisper(sender, message);
     await recipientChannel.send({ embeds: [whisperEmbed] });
-    interaction.reply({ content:`Message sent!` });
+    interaction.editReply({ content:`Message sent!` });
   },
 };
 
 async function resolveChannel(interaction, recipient){
     switch (recipient) {
         case "Bielze":
-            return await interaction.guild.channels.resolve(BIELZE_CHANNEL_ID);
+            return await interaction.guild.channels.resolve(process.env.BIELZE_CHANNEL_ID);
         case "Duvroth":
-            return await interaction.guild.channels.resolve(DUVROTH_CHANNEL_ID);
+            return await interaction.guild.channels.resolve(process.env.DUVROTH_CHANNEL_ID);
         case "Flint":
-            return await interaction.guild.channels.resolve(FLINT_CHANNEL_ID);
+            return await interaction.guild.channels.resolve(process.env.FLINT_CHANNEL_ID);
         case "Kallayo":
-            return await interaction.guild.channels.resolve(KALLAYO_CHANNEL_ID);
+            return await interaction.guild.channels.resolve(process.env.KALLAYO_CHANNEL_ID);
         case "Kiraya":
-            return await interaction.guild.channels.resolve(KIRAYA_CHANNEL_ID);
+            return await interaction.guild.channels.resolve(process.env.KIRAYA_CHANNEL_ID);
         case "Meadow":
-            return await interaction.guild.channels.resolve(MEADOW_CHANNEL_ID);
+            return await interaction.guild.channels.resolve(process.env.MEADOW_CHANNEL_ID);
         case "Sovia":
-            return await interaction.guild.channels.resolve(SOVIA_CHANNEL_ID);
+            return await interaction.guild.channels.resolve(process.env.SOVIA_CHANNEL_ID);
         case "Zh\'Era":
-            return await interaction.guild.channels.resolve(ZHERA_CHANNEL_ID);
+            return await interaction.guild.channels.resolve(process.env.ZHERA_CHANNEL_ID);
         default:
             return null;
     }
@@ -68,5 +68,5 @@ function createWhisper(sender, message){
         .setTitle(`Whisper from ${sender}`)
         .setColor(`#0a560c`)
         .addFields({ name: `\u200B`, value: message })
-        .addFooter({ text: `You can reply to this whisper using /w.` });
+        .setFooter({ text: `You can reply to this whisper using /w.` });
 }
