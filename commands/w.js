@@ -25,7 +25,7 @@ module.exports = {
 
   async execute(interaction) {
     
-    interaction.deferReply();
+    await interaction.deferReply();
     const message = await interaction.options.getString('message');
     const recipient = await interaction.options.getString('recipient');
     const sender = await interaction.member.displayName;
@@ -35,7 +35,7 @@ module.exports = {
 
     whisperEmbed = createWhisper(sender, message);
     await recipientChannel.send({ embeds: [whisperEmbed] });
-    interaction.editReply({ content:`Message sent!` });
+    return await interaction.editReply({ content:`Message sent!` });
   },
 };
 
