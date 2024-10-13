@@ -54,13 +54,13 @@ module.exports = {
                 RCaudioPlayer.play(soundSuccess);
                 await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 5000);
                 if (pausedByRC) { vcConnection.subscribe(BGMaudioPlayer); BGMaudioPlayer.unpause(); }
-                return;
+                return readyCollector.stop();
             } else {
                 interaction.followUp(`Ready check ended. ${numReady}/${userReadyStates.length} people are ready.`);
                 RCaudioPlayer.play(soundFailure);
                 await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 5000);
                 if (pausedByRC) { vcConnection.subscribe(BGMaudioPlayer); BGMaudioPlayer.unpause(); }
-                return;
+                return readyCollector.stop();
             }
         }
         i.deferUpdate();
