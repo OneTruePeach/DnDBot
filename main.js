@@ -12,11 +12,20 @@ const client = new Client({
 });
 
 client.commands = new Collection();
-global.sessionActive = false;
-global.BGMaudioPlayer = createAudioPlayer({
+
+global.hollowHeartsSessionActive = false;
+global.HollowHeartsBGMAudioPlayer = createAudioPlayer({
     behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
 });
-global.RCaudioPlayer = createAudioPlayer({
+global.HollowHeartsRCAudioPlayer = createAudioPlayer({
+    behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+});
+
+global.hollowPantheonSessionActive = false;
+global.HollowPantheonBGMAudioPlayer = createAudioPlayer({
+    behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+});
+global.HollowPantheonRCAudioPlayer = createAudioPlayer({
     behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
 });
 

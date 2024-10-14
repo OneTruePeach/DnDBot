@@ -1,6 +1,6 @@
 module.exports = {
     name: 'ready',
     async execute() {
-        console.log(`${new Date().toLocaleString()} - Bot ready :D`);
+        console.log(`${new Date().toLocaleString()} - Bot ready`);
     }
 }

@@ -1,40 +1,43 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { createAudioResource, entersState, StreamType, AudioPlayerStatus, getVoiceConnection } = require('@discordjs/voice');
 const sessionHandler = require(`../handlers/sessionHandler`);
+const GuildInfo = require(`../class/GuildInfo`);
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("bgm")
     .setDescription("Changes the BGM")
     .addStringOption((option) =>
-        option.setName("song").setDescription("Background song to play").setRequired(true).setAutocomplete(true)),
+      option.setName("song")
+        .setDescription("Background song to play")
+        .setRequired(true)
+        .setAutocomplete(true)),
 
   async execute(interaction) {
-    var song = await interaction.options.getString("song");
-    var vcGuild = await interaction.client.guilds.resolve(process.env.GUILD_ID);
-    var vcChannel = await vcGuild.channels.resolve(process.env.VC_ID);
-    console.log(`${new Date().toLocaleString()} - Changing BGM to ${song} in ${vcChannel.name}`);
+    const song = await interaction.options.getString("song");
+    const guildInfo =  new GuildInfo(await interaction.guild);
+    console.log(`${new Date().toLocaleString()} - Changing BGM to ${song} in ${guildInfo.Name}`);
 
-    canPlay = await sessionHandler.execute(interaction, true, false);
-    vcConnection = getVoiceConnection(process.env.GUILD_ID);
+    canPlay = await sessionHandler.execute(interaction, guildInfo, true, false);
+    vcConnection = getVoiceConnection(guildInfo.Id);
 
     if ( song == 'pause' ) {
         interaction.reply({ content:`Pausing BGM.`, ephemeral: true });
-         return BGMaudioPlayer.pause();
+         return guildInfo.BGMAudioPlayer.pause();
     } 
 
     if ( !canPlay ) {
         interaction.reply({ content: `Waiting for ready check to finish. The music should start shortly.`, ephemeral: true })
-        await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 70000);
+        await entersState(guildInfo.RCAudioPlayer, AudioPlayerStatus.Idle, 70000);
     }
 
     if ( song == 'play' ) {
       interaction.reply({ content:`Unpausing BGM.`, ephemeral: true });
-      return BGMaudioPlayer.unpause();
+      return guildInfo.BGMAudioPlayer.unpause();
     } else {
-      BGMsong = createAudioResource(`./assets/BGM/${song}.ogg`, {inputType: StreamType.Arbitrary});
-      BGMaudioPlayer.play(BGMsong);
-      vcConnection.subscribe(BGMaudioPlayer);
+      BGMsong = createAudioResource(`./assets/${guildInfo.Name}/BGM/${song}.ogg`, {inputType: StreamType.OggOpus});
+      guildInfo.BGMAudioPlayer.play(BGMsong);
+      vcConnection.subscribe(guildInfo.BGMAudioPlayer);
       if (!canPlay) {
         interaction.followUp({ content:`Playing ${song}.`, ephemeral: true });
       } else {
@@ -42,43 +45,17 @@ module.exports = {
       }
     }
 
-    BGMaudioPlayer.on(AudioPlayerStatus.Idle, () => { //i fucking hate this
-      BGMsong = createAudioResource(`./assets/BGM/${song}.ogg`, {inputType: StreamType.OggOpus});
-      BGMaudioPlayer.play(BGMsong);
+    guildInfo.BGMAudioPlayer.on(AudioPlayerStatus.Idle, () => { //i fucking hate this
+      BGMsong = createAudioResource(`./assets/${guildInfo.Name}/BGM/${song}.ogg`, {inputType: StreamType.OggOpus});
+      guildInfo.BGMAudioPlayer.play(BGMsong);
     });
   },
 
-  async spoilerSongs(interaction) {
+  async autocomplete(interaction) {
     const search = interaction.options.getFocused();
-    const simpleSongs = [
-      [ "Casual",                    "casual" ],
-      [ "Play",                        "play" ],
-      [ "Pause",                      "pause" ],
-    ];
-		const allSongs = [
-      [ "Casual",                    "casual" ],
-      [ "Combat",                    "combat" ],
-      [ "Duvroth general",          "duvroth" ],
-      [ "Flint general",              "flint" ],
-      [ "Kallayo and Flint",  "kallayo-flint" ],
-      [ "Kallayo mom",          "kallayo-mom" ],
-      [ "Kallayo stressed",  "kallayo-stress" ],
-      [ "Tezar",              "kallayo-tezar" ],
-      [ "Tezar death",  "kallayo-tezar-death" ],
-      [ "Kiraya peaceful",  "kiraya-at-peace" ],
-      [ "Kiraya mom",            "kiraya-mom" ],
-      [ "Kiraya shop/tavern",   "kiraya-shop" ],
-      [ "Kiraya sombre",      "kiraya-sombre" ],
-      [ "Meadow general",            "meadow" ],
-      [ "Sovia peaceful",       "sovia-happy" ],
-      [ "Zh'era happy",         "zhera-happy" ],
-      [ "Zh'era sombre",       "zhera-sombre" ],
-      [ "Play",                        "play" ],
-      [ "Pause",                      "pause" ],
-    ];
-
-    applicableSongs = (interaction.user.id == '203542663851409409' || interaction.user.id == '200297075882065921') ? allSongs : simpleSongs;
-    const filtered = search == '' ? applicableSongs : applicableSongs.filter(song => song[0].toLowerCase().startsWith(search));
+    const guildInfo = new GuildInfo(await interaction.guild);
+    const applicableSongs = (interaction.user.id == '203542663851409409' || interaction.user.id == '200297075882065921') ? guildInfo.AllSongs : guildInfo.SimpleSongs;
+    const filtered = search == '' ? applicableSongs : applicableSongs.filter(song => song[0].toLowerCase().startsWith(search.toLowerCase()));
     await interaction.respond(filtered.map(song => ({ name: song[0], value: song[1] })).slice(0, 25));
   }
 };

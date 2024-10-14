@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { VoiceConnectionStatus, entersState, joinVoiceChannel } = require('@discordjs/voice');
+const GuildInfo = require(`../class/GuildInfo`);
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -11,15 +12,15 @@ module.exports = {
     console.log(`${new Date().toLocaleString()} - Stopping via command`);
 
     try {
-      var vcGuild = await interaction.client.guilds.resolve(process.env.GUILD_ID);
+      var guildInfo = new GuildInfo(await interaction.guild);
       currentConnection = joinVoiceChannel({
-          channelId: process.env.VC_ID,
-          guildId: process.env.GUILD_ID,
-          adapterCreator: vcGuild.voiceAdapterCreator,
+          channelId: guildInfo.VcId,
+          guildId: guildInfo.Id,
+          adapterCreator: interaction.guild.voiceAdapterCreator,
       });
       await entersState(currentConnection, VoiceConnectionStatus.Ready, 5000);
       currentConnection.destroy();
-      sessionActive = false;
+      guildInfo.sessionActive = false;
     } catch(e) {
       console.error(e);
     }

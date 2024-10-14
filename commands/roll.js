@@ -5,7 +5,9 @@ module.exports = {
     .setName("roll")
     .setDescription("Rolls a die or set of dice")
     .addStringOption((option) =>
-      option.setName("roll").setDescription("This works the same way roll20 does.").setRequired(true)),
+      option.setName("roll")
+        .setDescription("This works the same way roll20 does.")
+        .setRequired(true)),
 
   async execute(interaction) {
     var roll = await interaction.options.getString("roll");

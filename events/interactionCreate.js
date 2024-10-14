@@ -13,7 +13,7 @@ module.exports = {
 
         if (interaction.isAutocomplete()) {
             try {
-                await command.spoilerSongs(interaction);
+                await command.autocomplete(interaction);
             } catch (e) {
                 console.error(e);
             }

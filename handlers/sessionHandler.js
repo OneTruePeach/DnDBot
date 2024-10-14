@@ -1,23 +1,23 @@
 const { joinVoiceChannel, entersState, getVoiceConnection, VoiceConnectionStatus } = require('@discordjs/voice');
 
 module.exports = {
-    async execute(interaction, playing, interrupt) {
+    async execute(interaction, guild, playing, interrupt) {
         
-        var currentConnection = getVoiceConnection(process.env.GUILD_ID);
+        var currentConnection = getVoiceConnection(guild.id);
         if (playing) {
             if (!currentConnection) {
-                var vcGuild = await interaction.client.guilds.resolve(process.env.GUILD_ID);
+                var discordGuild = await interaction.guild;
                 currentConnection = joinVoiceChannel({
-                    channelId: process.env.VC_ID,
-                    guildId: process.env.GUILD_ID,
-                    adapterCreator: vcGuild.voiceAdapterCreator,
+                    channelId: guild.VcId,
+                    guildId: guild.Id,
+                    adapterCreator: discordGuild.voiceAdapterCreator,
                 });
                 await entersState(currentConnection, VoiceConnectionStatus.Ready, 5000);
             }
 
             sessionActive = true;
-            if ((BGMaudioPlayer.state.status == 'playing') && interrupt) { BGMaudioPlayer.pause(); }
-            if ((RCaudioPlayer.state.status == 'playing') && !interrupt) { return false; }
+            if ((guild.BGMAudioPlayer.state.status == 'playing') && interrupt) { guild.BGMAudioPlayer.pause(); }
+            if ((guild.RCAudioPlayer.state.status == 'playing') && !interrupt) { return false; }
             return true;
 
         } else {

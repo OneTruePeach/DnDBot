@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const { getVoiceConnection, createAudioResource, entersState, StreamType, AudioPlayerStatus } = require('@discordjs/voice');
 const sessionHandler = require(`../handlers/sessionHandler`);
+const GuildInfo = require(`../class/GuildInfo`);
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -8,8 +9,8 @@ module.exports = {
     .setDescription("Starts a ready check for session start or short breaks."),
 
   async execute(interaction) {
-    var vcGuild = await interaction.client.guilds.resolve(process.env.GUILD_ID);
-    var vcChannel = await vcGuild.channels.resolve(process.env.VC_ID);
+    const guildInfo =  new GuildInfo(await interaction.guild);
+    var vcChannel = await interaction.guild.channels.resolve(guildInfo.VcId);
     var vcUsers = await vcChannel?.members || null;
     if (vcUsers == null) { interaction.reply(`There's nobody in the vc silly`) }
 
@@ -31,11 +32,11 @@ module.exports = {
     const soundSuccess = createAudioResource(`./assets/sounds/success.mp3`, {inputType: StreamType.Arbitrary});
     const soundFailure = createAudioResource(`./assets/sounds/failure.mp3`, {inputType: StreamType.Arbitrary});
 
-    pausedByRC = await sessionHandler.execute(interaction, true, true);
-    vcConnection = getVoiceConnection(process.env.GUILD_ID);
+    pausedByRC = await sessionHandler.execute(interaction, guildInfo, true, true);
+    vcConnection = getVoiceConnection(guildInfo.Id);
 
-    RCaudioPlayer.play(soundInitiate);
-    vcConnection.subscribe(RCaudioPlayer);
+    guildInfo.RCAudioPlayer.play(soundInitiate);
+    vcConnection.subscribe(guildInfo.RCAudioPlayer);
 
     var [embed, row] = createReply(userString, userReadyStates);
     const response = await interaction.reply({ embeds: [embed], components: [row] });
@@ -51,29 +52,29 @@ module.exports = {
         if (numHolding == 0) {
             if (numReady == userReadyStates.length) {
                 interaction.followUp(`Everyone is ready!`);
-                RCaudioPlayer.play(soundSuccess);
-                await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 5000);
-                if (pausedByRC) { vcConnection.subscribe(BGMaudioPlayer); BGMaudioPlayer.unpause(); }
+                guildInfo.RCAudioPlayer.play(soundSuccess);
+                await entersState(guildInfo.RCAudioPlayer, AudioPlayerStatus.Idle, 5000);
+                if (pausedByRC) { vcConnection.subscribe(guildInfo.BGMAudioPlayer); guildInfo.BGMAudioPlayer.unpause(); }
                 return readyCollector.stop();
             } else {
                 interaction.followUp(`Ready check ended. ${numReady}/${userReadyStates.length} people are ready.`);
-                RCaudioPlayer.play(soundFailure);
-                await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 5000);
-                if (pausedByRC) { vcConnection.subscribe(BGMaudioPlayer); BGMaudioPlayer.unpause(); }
+                guildInfo.RCAudioPlayer.play(soundFailure);
+                await entersState(guildInfo.RCAudioPlayer, AudioPlayerStatus.Idle, 5000);
+                if (pausedByRC) { vcConnection.subscribe(guildInfo.BGMAudioPlayer); guildInfo.BGMAudioPlayer.unpause(); }
                 return readyCollector.stop();
             }
         }
         i.deferUpdate();
     });
 
-    readyCollector.on('end', async c => {
+    readyCollector.on('end', async () => {
         let numReady = userReadyStates.filter(a => a === "r").length
         let numHolding = userReadyStates.filter(a => a === "h").length
         if (numHolding != 0) {
             interaction.followUp(`Ready check ended. ${numReady}/${userReadyStates.length} people are ready.`);
-            RCaudioPlayer.play(soundFailure);
-            await entersState(RCaudioPlayer, AudioPlayerStatus.Idle, 5000);
-            if (pausedByRC) { vcConnection.subscribe(BGMaudioPlayer); BGMaudioPlayer.unpause(); }
+            guildInfo.RCAudioPlayer.play(soundFailure);
+            await entersState(guildInfo.RCAudioPlayer, AudioPlayerStatus.Idle, 5000);
+            if (pausedByRC) { vcConnection.subscribe(guildInfo.BGMAudioPlayer); guildInfo.BGMAudioPlayer.unpause(); }
             return;
         }
     });
