@@ -3,7 +3,7 @@ const { joinVoiceChannel, entersState, getVoiceConnection, VoiceConnectionStatus
 module.exports = {
     async execute(interaction, guild, playing, interrupt) {
         
-        var currentConnection = getVoiceConnection(guild.id);
+        var currentConnection = getVoiceConnection(guild.Id);
         if (playing) {
             if (!currentConnection) {
                 var discordGuild = await interaction.guild;

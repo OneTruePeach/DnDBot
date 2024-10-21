@@ -43,6 +43,7 @@ module.exports = {
     const readyCollector = await response.createMessageComponentCollector({ componentType: ComponentType.Button, time: 60000 });
 
     readyCollector.on('collect', async i => {
+        i.deferUpdate();
         userIndex = userList.indexOf(i.user.id);
         userReadyStates[userIndex] = i.customId == 'rc_ready' ? 'r' : 'n';
         [embed, row] = createReply(userString, userReadyStates);
@@ -64,7 +65,6 @@ module.exports = {
                 return readyCollector.stop();
             }
         }
-        i.deferUpdate();
     });
 
     readyCollector.on('end', async () => {
