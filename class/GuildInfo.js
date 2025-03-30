@@ -3,7 +3,7 @@ const Player = require(`./Player`);
 class Guild {
     constructor (guild) {
         //0699 is Hollow Pantheon
-        //2528 is Hollow Hearts
+        //2528 is Hollow Explorers
         this.Id = guild.id;
         this.Name = guild.name;
         this.VcId = resolveVCID(this.Id);
@@ -58,15 +58,19 @@ function resolveSongs(id) {
             return [
                 [ "Casual",                    "casual" ],
                 [ "Combat",                    "combat" ],
+                [ "Combat 2",                "combat-2" ],
                 [ "Play",                        "play" ],
                 [ "Pause",                      "pause" ],
             ];
         case "1169816876570902528":
             return [
                 [ "Casual",                    "casual" ],
+                [ "Chill Overview",    "overview-chill" ],
                 [ "Combat",                    "combat" ],
+                [ "Combat 2",                "combat-2" ],
                 [ "Play",                        "play" ],
                 [ "Pause",                      "pause" ],
+                [ "Midnight Sky",        "midnight-sky" ],
                 [ "Duvroth general",          "duvroth" ],
                 [ "Flint general",              "flint" ],
                 [ "Kallayo and Flint",  "kallayo-flint" ],
