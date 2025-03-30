@@ -55,9 +55,7 @@ module.exports = {
     const search = interaction.options.getFocused();
     const guildInfo = new GuildInfo(await interaction.guild);
     const player = guildInfo.Players.find(p => p.Id == interaction.user.id);
-    console.log(player);
     const applicableSongs = guildInfo.PrivilegedUsers.find(i => i == interaction.user.id) ? guildInfo.AllSongs : [...guildInfo.SimpleSongs, ...player.Songs];
-    console.log(applicableSongs);
     const filtered = search == '' ? applicableSongs : applicableSongs.filter(song => song[0].toLowerCase().startsWith(search.toLowerCase()));
     await interaction.respond(filtered.map(song => ({ name: song[0], value: song[1] })).slice(0, 25));
   }
