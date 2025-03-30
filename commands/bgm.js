@@ -16,7 +16,8 @@ module.exports = {
   async execute(interaction) {
     const song = await interaction.options.getString("song");
     const guildInfo = new GuildInfo(await interaction.guild);
-    console.log(`${new Date().toLocaleString()} - Changing BGM to ${song} in ${guildInfo.Name}`);
+    const songName = guildInfo.AllSongs.filter(function (a) {return !!~a.indexOf(song)})[0][0]; //programmers hate this one trick
+    console.log(`${new Date().toLocaleString()} - Changing BGM to ${songName} (${song}) in ${guildInfo.Name}`);
 
     canPlay = await sessionHandler.execute(interaction, guildInfo, true, false);
     vcConnection = getVoiceConnection(guildInfo.Id);
@@ -39,9 +40,9 @@ module.exports = {
       guildInfo.BGMAudioPlayer.play(BGMsong);
       vcConnection.subscribe(guildInfo.BGMAudioPlayer);
       if (!canPlay) {
-        interaction.followUp({ content:`Playing ${song}.`, ephemeral: true });
+        interaction.followUp({ content:`Playing ${songName}.`, ephemeral: true });
       } else {
-        interaction.reply({ content:`Playing ${song}.`, ephemeral: true });
+        interaction.reply({ content:`Playing ${songName}.`, ephemeral: true });
       }
     }
 
