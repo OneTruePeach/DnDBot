@@ -57,6 +57,10 @@ function resolveSongs(id) {
         case "1185383286437060699":
             return [
                 [ "Casual",                    "casual" ],
+                [ "Casual 2",              "casual-new" ],
+                [ "Sad",                          "sad" ],
+                [ "Spooky",                    "spooky" ],
+                [ "Upbeat",                    "upbeat" ],
                 [ "Combat",                    "combat" ],
                 [ "Combat 2",                "combat-2" ],
                 [ "Play",                        "play" ],
