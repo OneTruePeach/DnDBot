@@ -13,11 +13,11 @@ const client = new Client({
 
 client.commands = new Collection();
 
-global.hollowHeartsSessionActive = false;
-global.HollowHeartsBGMAudioPlayer = createAudioPlayer({
+global.hollowExplorersSessionActive = false;
+global.HollowExplorersBGMAudioPlayer = createAudioPlayer({
     behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
 });
-global.HollowHeartsRCAudioPlayer = createAudioPlayer({
+global.HollowExplorersRCAudioPlayer = createAudioPlayer({
     behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
 });
 

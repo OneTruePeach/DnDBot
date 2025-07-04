@@ -128,7 +128,8 @@ function resolvePlayers(id) {
                     [[ "Kallayo mom", "kallayo-mom" ],
                     [ "Kallayo stressed", "kallayo-stress" ],
                     [ "Tezar", "kallayo-tezar" ],
-                    [ "Tezar death", "kallayo-tezar-death" ],]
+                    [ "Tezar death", "kallayo-tezar-death" ],
+                    [ "Flint and Kallayo",  "kallayo-flint" ],]
                 ),
                 new Player("Kiraya", "1169820404433571892", "200297075882065921",
                     [[ "Kiraya peaceful", "kiraya-at-peace" ],
@@ -137,7 +138,8 @@ function resolvePlayers(id) {
                     [ "Kiraya sombre", "kiraya-sombre" ],]
                 ),
                 new Player("Meadow", "1169820364222759064", "260643778820308992",
-                    [[ "Meadow general", "meadow" ],]
+                    [[ "Meadow general", "meadow" ],
+                    [ "Meadow Music Box", "meadow-music-box" ],]
                 ),
                 new Player("Sovia", "1266925525104988190", "321453182029004800",
                     [[ "Sovia peaceful", "sovia-happy" ],]
@@ -155,7 +157,7 @@ function resolveBGMAudioPlayer(id) {
         case "1185383286437060699":
             return global.HollowPantheonBGMAudioPlayer;
         case "1169816876570902528":
-            return global.HollowHeartsBGMAudioPlayer;
+            return global.HollowExplorersBGMAudioPlayer;
     }
 }
 
@@ -164,7 +166,7 @@ function resolveRCAudioPlayer(id) {
         case "1185383286437060699":
             return global.HollowPantheonRCAudioPlayer;
         case "1169816876570902528":
-            return global.HollowHeartsRCAudioPlayer;
+            return global.HollowExplorersRCAudioPlayer;
     }
 }
 
@@ -173,7 +175,7 @@ function resolveSessionActive(id) {
         case "1185383286437060699":
             return global.hollowPantheonSessionActive;
         case "1169816876570902528":
-            return global.hollowHeartsSessionActive;
+            return global.hollowExplorersSessionActive;
     }
 }
 
