@@ -1,0 +1,6 @@
+
+    - https://stackoverflow.com/questions/58142864/how-to-stream-a-specific-microphone-through-a-discord-bot-using-discord-js
+    - https://discord.js.org/docs/packages/voice/0.19.0/AudioResource:Class#playStream
+
+    - create stream from selected song and ambience -> send readableStream to discord
+    - https://superuser.com/questions/767722/ffmpeg-combine-two-mono-live-audio-stream-to-single-stereo-stream
