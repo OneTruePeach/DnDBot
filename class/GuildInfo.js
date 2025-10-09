@@ -4,6 +4,7 @@ class Guild {
     constructor (guild) {
         //0699 is Hollow Pantheon
         //2528 is Hollow Explorers
+        //9088 is Night City
         this.Id = guild.id;
         this.Name = guild.name;
         this.VcId = resolveVCID(this.Id);
@@ -23,6 +24,8 @@ function resolveVCID(id) {
             return "1185383287556952223";
         case "1169816876570902528":
             return "1169817038915641405";
+        case "1424625749389869088":
+            return "1424625750883045399";
     }
 }
 
@@ -32,6 +35,8 @@ function resolvePrivilegedUsers(id) {
             return ["203542663851409409", "200297075882065921", "342841062399672320"];
         case "1169816876570902528":
             return ["203542663851409409", "200297075882065921"];
+        case "1424625749389869088":
+            return ["200297075882065921", "827473044054081566"];
     }
 }
 
@@ -49,6 +54,12 @@ function resolveSimpleSongs(id) {
                 [ "Play",                        "play" ],
                 [ "Pause",                      "pause" ],
               ];
+        case "1424625749389869088":
+            return [
+                [ "Default BGM",               "casual" ],
+                [ "Play",                        "play" ],
+                [ "Pause",                      "pause" ],
+            ];
     }
 }
 
@@ -103,6 +114,12 @@ function resolveSongs(id) {
                 [ "Zh\'era (Happy)",      "zhera-happy" ],
                 [ "Zh\'era (Sombre)",    "zhera-sombre" ],
             ];
+        case "1424625749389869088":
+            return [
+                [ "Cyberpunk Vibe",            "casual" ],
+                [ "Play",                        "play" ],
+                [ "Pause",                      "pause" ],
+            ]
     }
 }
 
@@ -120,7 +137,7 @@ function resolvePlayers(id) {
                     []
                 ),
             ];
-        case "1169816876570902528":
+        case "1169816876570902528": 
             return [
                 new Player("Bielze", "1266938080833830942", "175803105613447169",
                     []
@@ -157,6 +174,33 @@ function resolvePlayers(id) {
                     [ "Zh\'era sombre", "zhera-sombre" ],]
                 ),
             ];
+        case "1424625749389869088":
+            return [
+                new Player("Lily", "0000", "200297075882065921",
+                    []
+                ),
+                new Player("Jade", "0000", "260643778820308992",
+                    []
+                ),
+                new Player("Gray", "0000", "203542663851409409",
+                    []
+                ),
+                new Player("Kyle", "0000", "175803105613447169",
+                    []
+                ),
+                new Player("Cyn", "0000", "195982074614644737",
+                    []
+                ),
+                new Player("Bobby", "0000", "322485420833112077",
+                    []
+                ),
+                new Player("Love", "0000", "321453182029004800",
+                    []
+                ),
+                new Player("Hayden", "0000", "289214778398736386",
+                    []
+                ),
+            ];
     }
 }
 
@@ -166,6 +210,8 @@ function resolveBGMAudioPlayer(id) {
             return global.HollowPantheonBGMAudioPlayer;
         case "1169816876570902528":
             return global.HollowExplorersBGMAudioPlayer;
+        case "1424625749389869088":
+            return global.NightCityBGMAudioPlayer;
     }
 }
 
@@ -175,6 +221,8 @@ function resolveRCAudioPlayer(id) {
             return global.HollowPantheonRCAudioPlayer;
         case "1169816876570902528":
             return global.HollowExplorersRCAudioPlayer;
+        case "1424625749389869088":
+            return global.NightCityRCAudioPlayer;
     }
 }
 
@@ -184,6 +232,8 @@ function resolveSessionActive(id) {
             return global.hollowPantheonSessionActive;
         case "1169816876570902528":
             return global.hollowExplorersSessionActive;
+        case "1424625749389869088":
+            return global.nightCitySessionActive;
     }
 }
 

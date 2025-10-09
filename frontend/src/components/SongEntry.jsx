@@ -7,7 +7,7 @@ const SongEntry = ({displayName, filename}) => {
     <button className="h-16 btn btn-primary btn-soft btn-block justify-between hover:bg-secondary"
         onClick={() => {
             toast.success(`Telling bot to play: ${displayName}`)
-            console.log(`${filename}`)
+            fetch(`http://localhost:5001/api/SongRequest/${filename}`);
             //axios.post(filename to localhost:5001/api/SongRequest/)
         }}
     >

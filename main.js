@@ -21,6 +21,7 @@ async function doDiscordSetup() {
 
     client.commands = new Collection();
 
+    //-------------------gray's server initialization-------------
     global.hollowExplorersSessionActive = false;
     global.HollowExplorersBGMAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
@@ -29,11 +30,21 @@ async function doDiscordSetup() {
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
 
+    //-----------------gray's 2nd server initialization------------
     global.hollowPantheonSessionActive = false;
     global.HollowPantheonBGMAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
     global.HollowPantheonRCAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+
+    //-----------------squiggl's server initialization------------
+    global.nightCitySessionActive = false;
+    global.NightCityBGMAudioPlayer = createAudioPlayer({
+        behaviors: {noSubscriber: NoSubscriberBehavior.Pause },
+    });
+    global.NightCityRCAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
 
@@ -58,8 +69,9 @@ async function doDiscordSetup() {
 
 async function doExpressSetup() {
     const app = express();
-    app.post(`/api/SongRequest`, (req, res) => {
-        console.log(`${req} received.`)
+    app.get(`/api/SongRequest/:id`, (req, res) => {
+        console.log(req.params.id);
+        res.status(200).send("Received.");
     });
 
     app.listen(process.env.PORT, () => {
