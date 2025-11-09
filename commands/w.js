@@ -1,5 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } = require('discord.js');
 const GuildInfo = require(`../class/GuildInfo`);
+const fs = require(`fs`);
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -26,9 +27,23 @@ module.exports = {
 
     console.log(`${new Date().toLocaleString()} - Sending whisper from ${sender} to ${recipient}`);
 
-    whisperEmbed = createWhisper(sender, message);
-    await recipientChannel.send({ embeds: [whisperEmbed] });
-    return await interaction.editReply({ content:`Message sent!` });
+
+    const senderIcon = fs.existsSync(`./assets/Night\ City/avatars/${interaction.member.id}.png`) ? 
+      new AttachmentBuilder(`./assets/Night\ City/avatars/${interaction.member.id}.png`, { name: 'senderIcon.png' }) : 
+      new AttachmentBuilder(`./assets/Night\ City/avatars/default.png`, { name: 'senderIcon.png' });
+    //senderIcon = new AttachmentBuilder(`./assets/Night\ City/avatars/${interaction.member.id}.png`, { name: 'senderIcon.png' });
+
+    whisperEmbedToRecipient = createWhisper(sender, message, false, senderIcon);
+    await recipientChannel.send({ 
+      embeds: [whisperEmbedToRecipient],
+      files: [senderIcon],
+    });
+
+    whisperEmbedToSender = createWhisper(sender, message, true, senderIcon);
+    return await interaction.editReply({ 
+      embeds: [whisperEmbedToSender],
+      files: [senderIcon],
+    });
   },
 
   async autocomplete(interaction) {
@@ -38,7 +53,7 @@ module.exports = {
     let cNameList = [];
     guildInfo.Players.forEach(p => { cNameList.push(p.Name) });
     const allCNames = cNameList;
-    const cNames = search == '' ? allCNames : allCNames.filter(cName => cName.toLowerCase().startsWith(search.toLowerCase())); //maybe?
+    const cNames = search == '' ? allCNames : allCNames.filter(cName => cName.toLowerCase().startsWith(search.toLowerCase())); 
     await interaction.respond(cNames.map(cName => ({ name: cName, value: cName })).slice(0, 25));
   }
 };
@@ -51,12 +66,13 @@ async function resolveChannel(interaction, recipient, guildInfo) {
     }
 }
 
-function createWhisper(sender, message){
-    
+function createWhisper(recipient, message, isSender, icon){
     return new EmbedBuilder()
-        .setTitle(`Whisper from ${sender}`)
-        .setColor(`#0a560c`)
-        .addFields({ name: `\u200B`, value: message })
-        .setFooter({ text: `You can reply to this whisper using /w.` });
-
+        .setAuthor({ name: `${recipient}`, iconURL: `attachment://${icon.name}` })
+        //.setTitle(`${isSender ? "To" : "From"} ${recipient}:`)
+        .setColor(`${isSender ? '#0a560c' : '#d6d6d6'}`)
+        .setDescription(message)
+        //.setThumbnail(`attachment://${icon.name}`);
+        //.addFields({ name: `\u200B`, value: message })
+        //.setFooter({ text: `${"You can reply to this whisper using /w."}` });
 }
