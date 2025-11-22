@@ -36,7 +36,7 @@ module.exports = {
       interaction.reply({ content:`Unpausing BGM.`, ephemeral: true });
       return guildInfo.BGMAudioPlayer.unpause();
     } else {
-      BGMsong = createAudioResource(`./assets/${guildInfo.Name}/BGM/${song}.ogg`, {inputType: StreamType.OggOpus});
+      BGMsong = createAudioResource(`./assets/${guildInfo.Id}/BGM/${song}.ogg`, {inputType: StreamType.OggOpus});
       guildInfo.BGMAudioPlayer.play(BGMsong);
       vcConnection.subscribe(guildInfo.BGMAudioPlayer);
       if (!canPlay) {
@@ -47,7 +47,7 @@ module.exports = {
     }
 
     guildInfo.BGMAudioPlayer.on(AudioPlayerStatus.Idle, async () => { //i fucking hate this
-      BGMsong = createAudioResource(`./assets/${guildInfo.Name}/BGM/${song}.ogg`, {inputType: StreamType.OggOpus});
+      BGMsong = createAudioResource(`./assets/${guildInfo.Id}/BGM/${song}.ogg`, {inputType: StreamType.OggOpus});
       guildInfo.BGMAudioPlayer.play(BGMsong);
     });
   },

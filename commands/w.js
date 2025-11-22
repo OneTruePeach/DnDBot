@@ -28,9 +28,9 @@ module.exports = {
     console.log(`${new Date().toLocaleString()} - Sending whisper from ${sender} to ${recipient}`);
 
 
-    const senderIcon = fs.existsSync(`./assets/Night\ City/avatars/${interaction.member.id}.png`) ? 
-      new AttachmentBuilder(`./assets/Night\ City/avatars/${interaction.member.id}.png`, { name: 'senderIcon.png' }) : 
-      new AttachmentBuilder(`./assets/Night\ City/avatars/default.png`, { name: 'senderIcon.png' });
+    const senderIcon = fs.existsSync(`./assets/${guildInfo.Id}/avatars/${interaction.member.id}.png`) ? 
+      new AttachmentBuilder(`./assets/${guildInfo.Id}/avatars/${interaction.member.id}.png`, { name: 'senderIcon.png' }) : 
+      new AttachmentBuilder(`./assets/${guildInfo.Id}/avatars/default.png`, { name: 'senderIcon.png' });
     //senderIcon = new AttachmentBuilder(`./assets/Night\ City/avatars/${interaction.member.id}.png`, { name: 'senderIcon.png' });
 
     whisperEmbedToRecipient = createWhisper(sender, message, false, senderIcon);
@@ -49,10 +49,11 @@ module.exports = {
   async autocomplete(interaction) {
     const search = interaction.options.getFocused();
     const guildInfo = new GuildInfo(await interaction.guild);
-    //const allCNames = [].push(guildInfo.Players.forEach(player => { player.Name })); //there HAS to be a way to oneline this
-    let cNameList = [];
+
+    let cNameList = []; //there has to be a way to oneline this...
     guildInfo.Players.forEach(p => { cNameList.push(p.Name) });
     const allCNames = cNameList;
+
     const cNames = search == '' ? allCNames : allCNames.filter(cName => cName.toLowerCase().startsWith(search.toLowerCase())); 
     await interaction.respond(cNames.map(cName => ({ name: cName, value: cName })).slice(0, 25));
   }
