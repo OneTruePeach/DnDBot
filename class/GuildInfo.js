@@ -98,6 +98,7 @@ function resolveSongs(id) {
                 [ "Osiris",                    "osiris" ],
                 [ "Seld",                        "seld" ],
                 [ "Rosch",                      "rosch" ],
+                [ "Rautock",                  "rautock" ],
                 [ "Duvroth (General)",        "duvroth" ],
                 [ "Flint (General)",            "flint" ],
                 [ "Kallayo and Flint",  "kallayo-flint" ],
