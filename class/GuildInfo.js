@@ -102,11 +102,6 @@ function resolveSongs(id) {
                 [ "Rautock",                  "rautock" ],
                 [ "Duvroth (General)",        "duvroth" ],
                 [ "Flint (General)",            "flint" ],
-                [ "Kallayo and Flint",  "kallayo-flint" ],
-                [ "Kallayo (About Mom)",  "kallayo-mom" ],
-                [ "Kallayo (Stressed)","kallayo-stress" ],
-                [ "Tezar",              "kallayo-tezar" ],
-                [ "Tezar (Death)","kallayo-tezar-death" ],
                 [ "Kiraya (Peaceful)","kiraya-at-peace" ],
                 [ "Kiraya (About Mom)",    "kiraya-mom" ],
                 [ "Kiraya shop",          "kiraya-shop" ],
@@ -114,8 +109,13 @@ function resolveSongs(id) {
                 [ "Meadow (General)",          "meadow" ],
                 [ "Meadow Music Box", "meadow-music-box"],
                 [ "Sovia (Peaceful)",     "sovia-happy" ],
-                [ "Zh\'era (Happy)",      "zhera-happy" ],
-                [ "Zh\'era (Sombre)",    "zhera-sombre" ],
+                //[ "Zh\'era (Happy)",      "zhera-happy" ],
+                //[ "Zh\'era (Sombre)",    "zhera-sombre" ],
+                //[ "Kallayo and Flint",  "kallayo-flint" ],
+                //[ "Kallayo (About Mom)",  "kallayo-mom" ],
+                //[ "Kallayo (Stressed)","kallayo-stress" ],
+                //[ "Tezar",              "kallayo-tezar" ],
+                //[ "Tezar (Death)","kallayo-tezar-death" ],
             ];
         case "1424625749389869088":
             return [
@@ -152,12 +152,13 @@ function resolvePlayers(id) {
                     [[ "Flint general", "flint" ]
                     [ "Flint and Kallayo",  "kallayo-flint" ],]
                 ),
-                new Player("Kallayo", "1169820207682953247", "195982074614644737",
-                    [[ "Kallayo mom", "kallayo-mom" ],
-                    [ "Kallayo stressed", "kallayo-stress" ],
-                    [ "Tezar", "kallayo-tezar" ],
-                    [ "Tezar death", "kallayo-tezar-death" ],
-                    [ "Flint and Kallayo",  "kallayo-flint" ],]
+                new Player("Edros", "1169820207682953247", "195982074614644737",
+                    []
+                    //[ "Kallayo mom", "kallayo-mom" ],
+                    //[ "Kallayo stressed", "kallayo-stress" ],
+                    //[ "Tezar", "kallayo-tezar" ],
+                    //[ "Tezar death", "kallayo-tezar-death" ],
+                    //[ "Flint and Kallayo",  "kallayo-flint" ],
                 ),
                 new Player("Kiraya", "1169820404433571892", "200297075882065921",
                     [[ "Kiraya peaceful", "kiraya-at-peace" ],
@@ -172,9 +173,10 @@ function resolvePlayers(id) {
                 new Player("Sovia", "1266925525104988190", "321453182029004800",
                     [[ "Sovia peaceful", "sovia-happy" ],]
                 ),
-                new Player("Zh\'Era", "1169820169401532437", "827473044054081566",
-                    [[ "Zh\'era happy", "zhera-happy" ],
-                    [ "Zh\'era sombre", "zhera-sombre" ],]
+                new Player("Sol", "1169820169401532437", "827473044054081566",
+                    []
+                    //[ "Zh\'era happy", "zhera-happy" ],
+                    //[ "Zh\'era sombre", "zhera-sombre" ],
                 ),
             ];
         case "1424625749389869088":
