@@ -88,6 +88,7 @@ function resolveSongs(id) {
                 [ "General Combat",    "combat-general" ],
                 [ "Urgent Combat",      "combat-urgent" ],
                 [ "Epic Combat",          "combat-epic" ],
+                [ "Unsettling Atmosphere", "unsettling" ],
                 [ "Midnight Sky",        "midnight-sky" ],
                 [ "Adevage",                  "adevage" ],
                 [ "Arth",                        "arth" ],
