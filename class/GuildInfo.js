@@ -101,6 +101,8 @@ function resolveSongs(id) {
                 [ "Rosch",                      "rosch" ],
                 [ "Rautock",                  "rautock" ],
                 [ "Duvroth (General)",        "duvroth" ],
+                [ "Edros (General)",    "edros-general" ],
+                [ "Edros (Combat)",      "edros-combat" ],
                 [ "Flint (General)",            "flint" ],
                 [ "Kiraya (Peaceful)","kiraya-at-peace" ],
                 [ "Kiraya (About Mom)",    "kiraya-mom" ],
@@ -149,11 +151,12 @@ function resolvePlayers(id) {
                     [[ "Duvroth general", "duvroth" ],]
                 ),
                 new Player("Flint", "1169820458045149305", "322485420833112077",
-                    [[ "Flint general", "flint" ]
+                    [[ "Flint general", "flint" ],
                     [ "Flint and Kallayo",  "kallayo-flint" ],]
                 ),
                 new Player("Edros", "1169820207682953247", "195982074614644737",
-                    []
+                    [[ "Edros (General)",    "edros-general" ],
+                    [ "Edros (Combat)",      "edros-combat" ],]
                     //[ "Kallayo mom", "kallayo-mom" ],
                     //[ "Kallayo stressed", "kallayo-stress" ],
                     //[ "Tezar", "kallayo-tezar" ],
