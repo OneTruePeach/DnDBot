@@ -22,7 +22,6 @@ module.exports = {
 
             sessionActive = true;
             if ((guild.BGMAudioPlayer.state.status == 'playing') && interrupt) { guild.BGMAudioPlayer.pause(); }
-            if ((guild.RCAudioPlayer.state.status == 'playing') && !interrupt) { return false; }
             return true;
 
         } else {
