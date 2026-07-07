@@ -1,17 +1,13 @@
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { createAudioPlayer, NoSubscriberBehavior } = require('@discordjs/voice');
-const express = require('express');
-//const requestSong = require('./routes/requestSong')
-//const mongoose = require('mongoose');
 const fs = require('fs');
 require('dotenv').config();
 
-doDiscordSetup();
-doExpressSetup();
-//doMongooseSetup();
+doDiscordMainSetup();
+doDiscordAmbienceSetup();
 
-async function doDiscordSetup() {
-    const client = new Client({
+async function doDiscordMainSetup() {
+    const clientMain = new Client({
         intents: [
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMembers,
@@ -19,73 +15,118 @@ async function doDiscordSetup() {
         ]
     });
 
-    client.commands = new Collection();
+    clientMain.commands = new Collection();
 
     //-------------------gray's server initialization-------------
-    global.hollowExplorersSessionActive = false;
-    global.HollowExplorersBGMAudioPlayer = createAudioPlayer({
+    global.mainBotHollowExplorersSessionActive = false;
+    global.MainBotHollowExplorersBGMAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
-    global.HollowExplorersRCAudioPlayer = createAudioPlayer({
+    global.MainBotHollowExplorersRCAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
 
     //-----------------gray's 2nd server initialization------------
-    global.hollowPantheonSessionActive = false;
-    global.HollowPantheonBGMAudioPlayer = createAudioPlayer({
+    global.mainBotHollowPantheonSessionActive = false;
+    global.MainBotHollowPantheonBGMAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
-    global.HollowPantheonRCAudioPlayer = createAudioPlayer({
+    global.MainBotHollowPantheonRCAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
 
     //-----------------squiggl's server initialization------------
-    global.nightCitySessionActive = false;
-    global.NightCityBGMAudioPlayer = createAudioPlayer({
+    global.mainBotNightCitySessionActive = false;
+    global.MainBotNightCityBGMAudioPlayer = createAudioPlayer({
         behaviors: {noSubscriber: NoSubscriberBehavior.Pause },
     });
-    global.NightCityRCAudioPlayer = createAudioPlayer({
+    global.MainBotNightCityRCAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
 
-    const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+    //-----------------testing server initialization--------------
+    global.mainBotTestingSessionActive = false;
+    global.MainBotTestingBGMAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+    global.MainBotTestingRCAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+
+    const commandFiles = fs.readdirSync('./bots/main/commands').filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
-        const command = require(`./commands/${file}`);
-        client.commands.set(command.data.name, command);
+        const command = require(`./bots/main/commands/${file}`);
+        clientMain.commands.set(command.data.name, command);
     }
 
-    const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+    const eventFiles = fs.readdirSync('./bots/main/events').filter(file => file.endsWith('.js'));
     for (const file of eventFiles) {
-        const event = require(`./events/${file}`);
+        const event = require(`./bots/main/events/${file}`);
         if (event.once) {
-            client.once(event.name, (...args) => event.execute(...args, client));
+            clientMain.once(event.name, (...args) => event.execute(...args, clientMain));
         } else {
-            client.on(event.name, (...args) => event.execute(...args, client));
+            clientMain.on(event.name, (...args) => event.execute(...args, clientMain));
         }
     }
 
-    await client.login(process.env.TOKEN);
+    await clientMain.login(process.env.MAIN_TOKEN);
 }
 
-async function doExpressSetup() {
-    const app = express();
-    app.get(`/api/SongRequest/:id`, (req, res) => {
-        console.log(req.params.id);
-        res.status(200).send("Received.");
+async function doDiscordAmbienceSetup() {
+    const clientAmbience = new Client({
+        intents: [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMembers,
+            GatewayIntentBits.GuildVoiceStates,
+        ]
     });
 
-    app.listen(process.env.PORT, () => {
-        console.log(`${new Date().toLocaleString()} - Express ready`);
-    })
-}
+    clientAmbience.commands = new Collection();
 
-/*async function doMongooseSetup() {
-    await mongoose.connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }).then(() => {
-        console.log(`${new Date().toLocaleString()} - MongoDB ready`);
-    }).catch((e) => {
-        console.error(e);
-    })
-}*/
+    //-------------------gray's server initialization-------------
+    global.ambienceBotHollowExplorersSessionActive = false;
+    global.AmbienceBotHollowExplorersBGMAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+    global.AmbienceBotHollowExplorersRCAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+
+    //-----------------gray's 2nd server initialization------------
+    global.ambienceBotHollowPantheonSessionActive = false;
+    global.AmbienceBotHollowPantheonBGMAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+    global.AmbienceBotHollowPantheonRCAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+
+    //-----------------squiggl's server initialization------------
+    global.ambienceBotTestingSessionActive = false;
+    global.AmbienceBotTestingBGMAudioPlayer = createAudioPlayer({
+        behaviors: {noSubscriber: NoSubscriberBehavior.Pause },
+    });
+    global.AmbienceBotTestingRCAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+
+    //-----------------testing server initialization---------------
+
+    const commandFiles = fs.readdirSync('./bots/ambience/commands').filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const command = require(`./bots/ambience/commands/${file}`);
+        clientAmbience.commands.set(command.data.name, command);
+    }
+
+    const eventFiles = fs.readdirSync('./bots/ambience/events').filter(file => file.endsWith('.js'));
+    for (const file of eventFiles) {
+        const event = require(`./bots/ambience/events/${file}`);
+        if (event.once) {
+            clientAmbience.once(event.name, (...args) => event.execute(...args, clientAmbience));
+        } else {
+            clientAmbience.on(event.name, (...args) => event.execute(...args, clientAmbience));
+        }
+    }
+
+    await clientAmbience.login(process.env.AMBIENCE_TOKEN);
+}

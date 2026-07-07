@@ -2,35 +2,68 @@ const { REST, Routes } = require('discord.js');
 const fs = require('fs');
 require('dotenv').config();
 
-commands = [];
+client1Commands = [];
+client2Commands = [];
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    commands.push(command.data.toJSON());
+const client1CommandFiles = fs.readdirSync('./bots/main/commands').filter(file => file.endsWith('.js'));
+for (const file of client1CommandFiles) {
+    const client1Command = require(`./bots/main/commands/${file}`);
+    client1Commands.push(client1Command.data.toJSON());
 }
 
-const rest = new REST().setToken(process.env.TOKEN);
+const client2CommandFiles = fs.readdirSync('./bots/ambience/commands').filter(file => file.endsWith('.js'));
+for (const file of client2CommandFiles) {
+    const client2Command = require(`./bots/ambience/commands/${file}`);
+    client2Commands.push(client2Command.data.toJSON());
+}
+
+const client1Rest = new REST().setToken(process.env.MAIN_TOKEN);
+
+const client2Rest = new REST().setToken(process.env.AMBIENCE_TOKEN);
 
 (async() => {
     try {
-        console.log('Refreshing commands...');
-        await rest.put(
-            Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID_1),
-            { body: commands },
+        console.log('Refreshing commands for main bot...');
+        await client1Rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID_1, process.env.GUILD_ID_1),
+            { body: client1Commands },
         );
 
-        await rest.put(
-            Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID_2),
-            { body: commands },
+        await client1Rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID_1, process.env.GUILD_ID_2),
+            { body: client1Commands },
         );
 
-        await rest.put(
-            Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID_3),
-            { body: commands },
+        await client1Rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID_1, process.env.GUILD_ID_3),
+            { body: client1Commands },
         );
 
-        console.log("Commands refreshed.");
+        console.log("Commands refreshed for main bot.");
+    } catch(error) {
+        console.log(error);
+    }
+})();
+
+(async() => {
+    try {
+        console.log('Refreshing commands for ambience bot...');
+        await client2Rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID_2, process.env.GUILD_ID_1),
+            { body: client2Commands },
+        );
+
+        await client2Rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID_2, process.env.GUILD_ID_2),
+            { body: client2Commands },
+        );
+
+        await client2Rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID_2, process.env.GUILD_ID_3),
+            { body: client2Commands },
+        );
+
+        console.log("Commands refreshed for ambience bot.");
     } catch(error) {
         console.log(error);
     }
