@@ -57,8 +57,7 @@ module.exports = {
   async autocomplete(interaction) {
     const search = interaction.options.getFocused();
     const guildInfo = new GuildInfo(await interaction.guild);
-    const player = guildInfo.Players.find(p => p.Id == interaction.user.id);
-    const applicableSongs = guildInfo.PrivilegedUsers.find(i => i == interaction.user.id) ? guildInfo.AllSongs : [...guildInfo.SimpleSongs, ...player.Songs];
+    const applicableSongs = guildInfo.AllSongs;
     const filtered = search == '' ? applicableSongs : applicableSongs.filter(song => song[0].toLowerCase().includes(search.toLowerCase()));
     await interaction.respond(filtered.map(song => ({ name: song[0], value: song[1] })).slice(0, 25));
   }
