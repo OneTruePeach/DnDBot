@@ -4,7 +4,8 @@ class Guild {
     constructor (guild) {
         //0699 is Hollow Pantheon
         //2528 is Hollow Explorers
-        //9088 is Night City
+        //9088 is Night City (Squiggl)
+        //9527 is Night City (Bobby)
         //2720 is testing server
         this.Id = guild.id;
         this.Name = guild.name;
@@ -27,6 +28,8 @@ function resolveVCID(id) {
             return "1169817038915641405";
         case "1424625749389869088":
             return "1424625750883045399";
+        case "1516624557035749527":
+            return "1516624558290112575";
         case "493641527592222720":
             return "493641527592222728"
     }
@@ -40,6 +43,8 @@ function resolvePrivilegedUsers(id) {
             return ["203542663851409409", "200297075882065921"];
         case "1424625749389869088":
             return ["200297075882065921", "827473044054081566"];
+        case "1516624557035749527":
+            return ["200297075882065921", "322485420833112077"];
         case "493641527592222720":
             return ["200297075882065921"];
     }
@@ -65,9 +70,15 @@ function resolveSimpleSongs(id) {
                 [ "Play",                        "play" ],
                 [ "Pause",                      "pause" ],
             ];
+        case "1516624557035749527":
+            return [
+                [ "Default BGM",               "casual" ],
+                [ "Play",                        "play" ],
+                [ "Pause",                      "pause" ],
+            ];
         case "493641527592222720":
             return [
-                [ "Placeholder",               "casual" ],
+                [ "Default BGM",               "casual" ],
                 [ "Play",                        "play" ],
                 [ "Pause",                      "pause" ],
             ];
@@ -131,6 +142,12 @@ function resolveSongs(id) {
                 //[ "Tezar (Death)","kallayo-tezar-death" ],
             ];
         case "1424625749389869088":
+            return [
+                [ "Cyberpunk Vibe",            "casual" ],
+                [ "Play",                        "play" ],
+                [ "Pause",                      "pause" ],
+            ];
+        case "1516624557035749527":
             return [
                 [ "Cyberpunk Vibe",            "casual" ],
                 [ "Play",                        "play" ],
@@ -226,6 +243,27 @@ function resolvePlayers(id) {
                     []
                 ),
             ];
+        case "1516624557035749527":
+            return [
+                new Player("Alienor", "1526065148329197679", "200297075882065921",
+                    []
+                ),
+                new Player("Lekarz", "1526065189265608714", "195982074614644737",
+                    []
+                ),
+                new Player("c0mm0d0r3", "1526065223264370880", "827473044054081566",
+                    []
+                ),
+                new Player("Harley", "1526066543367290910", "260643778820308992",
+                    []
+                ),
+                new Player("Stim", "1526418993253187664", "203542663851409409",
+                    []
+                ),
+                new Player("Rook", "1526475075232993380", "289214778398736386",
+                    []
+                ),
+            ]
         case "493641527592222720":
             return [
                 new Player("Lily", "1523783742663954513", "200297075882065921",
@@ -242,7 +280,9 @@ function resolveBGMAudioPlayer(id) {
         case "1169816876570902528":
             return global.MainBotHollowExplorersBGMAudioPlayer;
         case "1424625749389869088":
-            return global.MainBotNightCityBGMAudioPlayer;
+            return global.MainBotNightCitySquigglBGMAudioPlayer;
+        case "1516624557035749527":
+            return global.MainBotNightCityBobbyBGMAudioPlayer
         case "493641527592222720":
             return global.MainBotTestingBGMAudioPlayer;
     }
@@ -255,7 +295,9 @@ function resolveRCAudioPlayer(id) {
         case "1169816876570902528":
             return global.MainBotHollowExplorersRCAudioPlayer;
         case "1424625749389869088":
-            return global.MainBotNightCityRCAudioPlayer;
+            return global.MainBotNightCitySquigglRCAudioPlayer;
+        case "1516624557035749527":
+            return global.MainBotNightCityBobbyRCAudioPlayer;
         case "493641527592222720":
             return global.MainBotTestingRCAudioPlayer;
     }
@@ -268,7 +310,9 @@ function resolveSessionActive(id) {
         case "1169816876570902528":
             return global.mainBotHollowExplorersSessionActive;
         case "1424625749389869088":
-            return global.mainBotNightCitySessionActive;
+            return global.mainBotNightCitySquigglSessionActive;
+        case "1516624557035749527":
+            return global.mainBotNightCityBobbySessionActive;
         case "493641527592222720":
             return global.mainBotTestingSessionActive;
     }

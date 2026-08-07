@@ -36,11 +36,20 @@ async function doDiscordMainSetup() {
     });
 
     //-----------------squiggl's server initialization------------
-    global.mainBotNightCitySessionActive = false;
-    global.MainBotNightCityBGMAudioPlayer = createAudioPlayer({
+    global.mainBotNightCitySquigglSessionActive = false;
+    global.MainBotNightCitySquigglBGMAudioPlayer = createAudioPlayer({
         behaviors: {noSubscriber: NoSubscriberBehavior.Pause },
     });
-    global.MainBotNightCityRCAudioPlayer = createAudioPlayer({
+    global.MainBotNightCitySquigglRCAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+
+    //-----------------bobby's server initialization------------
+    global.mainBotNightCityBobbySessionActive = false;
+    global.MainBotNightCityBobbyBGMAudioPlayer = createAudioPlayer({
+        behaviors: {noSubscriber: NoSubscriberBehavior.Pause },
+    });
+    global.MainBotNightCityBobbyRCAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
 
@@ -102,11 +111,20 @@ async function doDiscordAmbienceSetup() {
     });
 
     //-----------------squiggl's server initialization------------
-    global.ambienceBotTestingSessionActive = false;
-    global.AmbienceBotTestingBGMAudioPlayer = createAudioPlayer({
+    global.ambienceBotNightCitySquigglSessionActive = false;
+    global.AmbienceBotNightCitySquigglBGMAudioPlayer = createAudioPlayer({
         behaviors: {noSubscriber: NoSubscriberBehavior.Pause },
     });
-    global.AmbienceBotTestingRCAudioPlayer = createAudioPlayer({
+    global.AmbienceBotNightCitySquigglRCAudioPlayer = createAudioPlayer({
+        behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+    });
+
+    //-----------------bobby's server initialization------------
+    global.ambienceBotNightCityBobbySessionActive = false;
+    global.AmbienceBotNightCityBobbyBGMAudioPlayer = createAudioPlayer({
+        behaviors: {noSubscriber: NoSubscriberBehavior.Pause },
+    });
+    global.AmbienceBotNightCityBobbyRCAudioPlayer = createAudioPlayer({
         behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
     });
 
