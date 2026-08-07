@@ -44,6 +44,13 @@ const client2Rest = new REST().setToken(process.env.AMBIENCE_TOKEN);
         );
         console.log(`Main refreshed successfully for Guild: ${process.env.GUILD_ID_3}`);
     } catch(error) { }
+    try {
+        await client1Rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID_1, process.env.GUILD_ID_4),
+            { body: client1Commands },
+        );
+        console.log(`Main refreshed successfully for Guild: ${process.env.GUILD_ID_4}`);
+    } catch(error) { }
 })();
 
 (async() => {
@@ -68,5 +75,12 @@ const client2Rest = new REST().setToken(process.env.AMBIENCE_TOKEN);
             { body: client2Commands },
         );
         console.log(`Ambience refreshed successfully for Guild: ${process.env.GUILD_ID_3}`);
+    } catch(error) { }
+    try {
+        await client2Rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID_2, process.env.GUILD_ID_4),
+            { body: client2Commands },
+        );
+        console.log(`Ambience refreshed successfully for Guild: ${process.env.GUILD_ID_4}`);
     } catch(error) { }
 })();
