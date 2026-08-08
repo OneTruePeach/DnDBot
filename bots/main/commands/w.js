@@ -28,9 +28,9 @@ module.exports = {
     console.log(`${new Date().toLocaleString()} - Main     | Sending whisper from ${sender} to ${recipient}`);
 
 
-    const senderIcon = fs.existsSync(`./assets/${guildInfo.Id}/avatars/${interaction.member.id}.png`) ? 
-      new AttachmentBuilder(`./assets/${guildInfo.Id}/avatars/${interaction.member.id}.png`, { name: 'senderIcon.png' }) : 
-      new AttachmentBuilder(`./assets/${guildInfo.Id}/avatars/default.png`, { name: 'senderIcon.png' });
+    const senderIcon = fs.existsSync(`./assets/${guildInfo.Id}/Avatars/${interaction.member.id}.png`) ? 
+      new AttachmentBuilder(`./assets/${guildInfo.Id}/Avatars/${interaction.member.id}.png`, { name: 'senderIcon.png' }) : 
+      new AttachmentBuilder(`./assets/${guildInfo.Id}/Avatars/default.png`, { name: 'senderIcon.png' });
     //senderIcon = new AttachmentBuilder(`./assets/Night\ City/avatars/${interaction.member.id}.png`, { name: 'senderIcon.png' });
 
     whisperEmbedToRecipient = createWhisper(sender, message, false, senderIcon);
